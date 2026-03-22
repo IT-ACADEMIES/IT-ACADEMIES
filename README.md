@@ -1,111 +1,81 @@
-# IT ACADEMIES NAM 🚀
+# TC ACADEMY
 
-**World-Class IT Education from Diploma to PhD Level**
+Professional IT Education Platform - Diploma to Master's Degree
 
-A comprehensive online learning platform providing free IT education based on international syllabi (CompTIA, Cisco, ACM, IEEE) with full Namibian NQF compliance.
+## About
 
----
+TC Academy provides comprehensive IT education from Diploma level through to Master's degree. Built with industry-standard curriculum including IPDO, PIS, CA, MATH, and advanced modules.
 
-## 🌟 Features
+### Features
 
-### Core Functionality
-- ✅ **Multi-Role System**: CEO, Lecturer, and Student dashboards
-- ✅ **10 IT Subjects**: Programming, Cybersecurity, Web Development, Networking, Database, Cloud Computing, Data Science, Mobile Development, DevOps, Software Engineering
-- ✅ **4 Qualification Levels**: Diploma → Bachelor → Master → PhD
-- ✅ **Interactive Learning**: Quizzes, coding challenges, puzzles, projects
-- ✅ **Direct Messaging**: Student ↔ Student, Student ↔ Lecturer, Student ↔ CEO
-- ✅ **Video Calls**: Integrated Jitsi for live sessions
-- ✅ **Global Rankings**: Worldwide and country-specific leaderboards
-- ✅ **Progress Tracking**: Real-time course completion and scoring
-- ✅ **5 Theme Options**: Dark, Light, Cyberpunk, High Contrast, VS Code
+- ✅ **4 Qualification Levels**: Diploma → Bachelor → Honours → Master's
+- ✅ **20+ IT Modules**: IPDO, PIS, CA, MATH, Programming, Cybersecurity, etc.
+- ✅ **Virtual Labs**: Hands-on practice environments
+- ✅ **Real Assessments**: Tests, tasks, activities, challenges
+- ✅ **Multi-role System**: Students, Lecturers, CEO
+- ✅ **Global Access**: Students from all countries
 
-### Security & Performance
-- 🔒 Row-Level Security (RLS) in Supabase
-- 🔐 Encrypted authentication
-- ⚡ Fast loading with Next.js 14
-- 📱 Fully responsive design
+## Tech Stack
 
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 14 (React), TypeScript, Tailwind CSS
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
 - **Backend**: Supabase (PostgreSQL)
-- **Authentication**: Supabase Auth
-- **Animations**: Framer Motion
-- **UI Icons**: Lucide React
-- **Charts**: Recharts
-- **Deployment**: Vercel (Frontend), Supabase (Database)
+- **Hosting**: Vercel
+- **Cost**: $0 (Free tier everything)
 
----
+## First User = CEO
 
-## 🚀 Quick Start
+The first person to register automatically becomes CEO with full admin access.
 
-1. **Read START_HERE.md** - Your first step
-2. **Follow DEPLOYMENT_GUIDE.md** - Step-by-step deployment
-3. **Deploy in 30 minutes** - Get your platform live!
+**CEO Features**:
+- Platform analytics
+- User management
+- Module management
+- Virtual lab configuration
+- Full system access
 
----
+## Modules Structure
 
-## 💰 Cost: $0
+### Diploma Level
+- IPDO101: Introduction to Programming & Database Operations
+- PIS101: Programming & Information Systems
+- CA101: Computer Applications
+- MATH101: Mathematics for IT
+- NET101: Networking Fundamentals
+- WEB101: Web Development Basics
 
-Everything is **100% FREE**:
-- GitHub: Free ✓
-- Supabase: Free (500MB, 50K users) ✓
-- Vercel: Free (unlimited) ✓
+### Bachelor Level
+- PROG201: Advanced Programming
+- DB201: Database Management Systems
+- NET201: Network Administration
+- SEC201: Cybersecurity Fundamentals
+- WEB201: Full-Stack Web Development
+- SOFT201: Software Engineering
 
-**Total: $0/month** ✅
+### Honours Level
+- ADV301: Advanced Algorithms
+- CLOUD301: Cloud Computing
+- AI301: Artificial Intelligence
+- CYBER301: Advanced Cybersecurity
 
----
+### Master's Level
+- RES401: Research Methods in IT
+- BIGDATA401: Big Data Analytics
+- IOTSEC401: IoT and Security
+- THESIS401: Master Thesis
 
-## 📚 Course Content
+## Getting Started
 
-Based on international standards:
-- **Programming**: Python, JavaScript, Java, C++
-- **Cybersecurity**: CompTIA Security+, CEH, Kali Linux
-- **Web Development**: HTML/CSS, React, Node.js
-- **Networking**: Cisco CCNA, CompTIA Network+
-- **Database**: SQL, MySQL, PostgreSQL, MongoDB
-- **Cloud Computing**: AWS, Azure, Google Cloud
-- **Data Science & AI**: Python, Machine Learning
-- **Mobile Development**: Android, iOS, React Native
-- **DevOps**: Linux, Docker, CI/CD
-- **Software Engineering**: Design Patterns, Agile
+1. Visit the platform
+2. Register (first user becomes CEO!)
+3. Enroll in modules
+4. Access virtual labs
+5. Complete assessments
+6. Earn certificates
 
----
+## Deployment
 
-## 🎨 Available Themes
+Platform deployed on Vercel with Supabase backend.
 
-1. **Dark** - Sleek cyberpunk aesthetic (default)
-2. **Light** - Clean professional look
-3. **Cyberpunk** - Neon futuristic
-4. **High Contrast** - Accessibility focused
-5. **Coding** - VS Code inspired
+## License
 
----
-
-## 🔐 Security Features
-
-- ✅ Row-Level Security (RLS) on all tables
-- ✅ Encrypted passwords (Supabase Auth)
-- ✅ Role-based access control
-- ✅ Protected API routes
-- ✅ HTTPS by default (Vercel)
-
----
-
-## 📞 Support
-
-For issues or questions, use the built-in messaging system or create an issue in this repository.
-
----
-
-## 📄 License
-
-© 2026 IT Academies Nam. All rights reserved.
-
-Built with 💙 in Namibia for the World.
-
----
-
-**Let's put Namibia on the global tech map!** 🇳🇦🌍
+© 2026 TC Academy. All rights reserved.
