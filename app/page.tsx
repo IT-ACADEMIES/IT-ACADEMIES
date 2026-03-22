@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { Terminal, Code2, Shield, Globe, ArrowRight, GraduationCap, Users, Trophy } from 'lucide-react'
-import ThemeToggle from '@/components/ThemeToggle'
+import { Terminal, Code2, Shield, Globe, GraduationCap, Users, Trophy } from 'lucide-react'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 glass-effect border-b border-[var(--border-color)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -19,7 +17,6 @@ export default function HomePage() {
             </Link>
 
             <div className="flex items-center space-x-4">
-              <ThemeToggle />
               <Link href="/auth/login" className="btn-secondary">Login</Link>
               <Link href="/auth/register" className="btn-primary">Get Started</Link>
             </div>
@@ -27,7 +24,6 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
@@ -50,7 +46,6 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
             <div className="text-center">
               <Code2 className="w-8 h-8 mx-auto mb-2 text-[var(--accent-primary)]" />
@@ -76,55 +71,48 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Courses Section */}
       <section className="py-20 px-4 bg-[var(--bg-secondary)]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-4xl font-bold text-center mb-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-display text-4xl font-bold mb-12">
             Comprehensive <span className="gradient-text">IT Curriculum</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
-            <CourseCard icon={<Code2 />} title="Programming" subjects={["Python", "JavaScript", "Java"]} />
-            <CourseCard icon={<Shield />} title="Cybersecurity" subjects={["Ethical Hacking", "Security+"]} />
-            <CourseCard icon={<Globe />} title="Web Development" subjects={["HTML/CSS", "React", "Node.js"]} />
+            <div className="card">
+              <Code2 className="w-10 h-10 text-[var(--accent-primary)] mb-3 mx-auto" />
+              <h3 className="font-bold text-lg mb-2">Programming</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Python • JavaScript • Java</p>
+            </div>
+            <div className="card">
+              <Shield className="w-10 h-10 text-[var(--accent-secondary)] mb-3 mx-auto" />
+              <h3 className="font-bold text-lg mb-2">Cybersecurity</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Ethical Hacking • Security+</p>
+            </div>
+            <div className="card">
+              <Globe className="w-10 h-10 text-[var(--accent-tertiary)] mb-3 mx-auto" />
+              <h3 className="font-bold text-lg mb-2">Web Development</h3>
+              <p className="text-sm text-[var(--text-secondary)]">HTML/CSS • React • Node.js</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-20 px-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-display text-4xl font-bold mb-6 text-white">
             Ready to Start Your IT Journey?
           </h2>
-          <Link href="/auth/register" className="inline-flex items-center bg-white text-[var(--bg-primary)] px-8 py-4 rounded-lg font-bold">
+          <Link href="/auth/register" className="inline-flex items-center bg-white text-[var(--bg-primary)] px-8 py-4 rounded-lg font-bold text-lg hover:scale-105 transition transform">
             Create Free Account
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-[var(--bg-secondary)] py-8 px-4">
         <div className="max-w-7xl mx-auto text-center text-[var(--text-tertiary)]">
           <p>© 2026 IT Academies Nam. Built with 💙 in Namibia for the World.</p>
         </div>
       </footer>
-    </div>
-  )
-}
-
-function CourseCard({ icon, title, subjects }: any) {
-  return (
-    <div className="card">
-      <div className="flex items-center space-x-3 mb-4">
-        <div className="text-[var(--accent-primary)]">{icon}</div>
-        <h3 className="font-bold text-lg">{title}</h3>
-      </div>
-      <ul className="space-y-2">
-        {subjects.map((s: string, i: number) => (
-          <li key={i} className="text-sm text-[var(--text-secondary)]">• {s}</li>
-        ))}
-      </ul>
     </div>
   )
 }
