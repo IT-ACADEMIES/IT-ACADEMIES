@@ -104,4 +104,58 @@ CREATE TABLE public.rankings (
   total_points INTEGER DEFAULT 0,
   courses_completed INTEGER DEFAULT 0,
   avg_score DECIMAL(5,2) DEFAULT 0,
-  updated_at TIMESTAMP WITH TI
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Quiz Results table
+CREATE TABLE public.quiz_results (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
+  quiz_id UUID REFERENCES public.quizzes(id) ON DELETE CASCADE,
+  score INTEGER NOT NULL,
+  answers JSONB NOT NULL,
+  completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS on all tables
+ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.courses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.modules ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.lessons ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.quizzes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.enrollments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.rankings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.quiz_results ENABLE ROW LEVEL SECURITY;
+
+-- Users policies
+CREATE POLICY "Users can view all profiles" ON public.users FOR SELECT USING (true);
+CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
+
+-- Courses policies
+CREATE POLICY "Anyone can view courses" ON public.courses FOR SELECT USING (true);
+
+-- Modules policies
+CREATE POLICY "Anyone can view modules" ON public.modules FOR SELECT USING (true);
+
+-- Lessons policies
+CREATE POLICY "Anyone can view lessons" ON public.lessons FOR SELECT USING (true);
+
+-- Quizzes policies
+CREATE POLICY "Anyone can view quizzes" ON public.quizzes FOR SELECT USING (true);
+
+-- Enrollments policies
+CREATE POLICY "Users can view own enrollments" ON public.enrollments FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Students can enroll in courses" ON public.enrollments FOR INSERT WITH CHECK (user_id = auth.uid());
+CREATE POLICY "Users can update own enrollments" ON public.enrollments FOR UPDATE USING (user_id = auth.uid());
+
+-- Messages policies
+CREATE POLICY "Users can view own messages" ON public.messages FOR SELECT USING (sender_id = auth.uid() OR receiver_id = auth.uid());
+CREATE POLICY "Users can send messages" ON public.messages FOR INSERT WITH CHECK (sender_id = auth.uid());
+
+-- Rankings policies
+CREATE POLICY "Anyone can view rankings" ON public.rankings FOR SELECT USING (true);
+
+-- Quiz Results policies
+CREATE POLICY "Users can view own results" ON public.quiz_results FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Users can submit quiz results" ON public.quiz_results FOR INSERT WITH CHECK (user_id = auth.uid());
