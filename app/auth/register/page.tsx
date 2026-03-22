@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Terminal, Mail, Lock, User, Globe, GraduationCap, Users, Shield, ArrowRight, CheckCircle } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { supabase, makeFirstUserCEO } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 
 const countries = [
@@ -38,20 +38,33 @@ export default function RegisterPage() {
 
       if (authError) throw authError
 
+      // Check if this should be the CEO (first user)
+      const { count } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+
+      const isCEO = count === 0
+      const finalRole = isCEO ? 'ceo' : formData.role
+
       const { error: profileError } = await supabase
         .from('users')
         .insert({
           id: authData.user!.id,
           email: formData.email,
           full_name: formData.fullName,
-          role: formData.role,
+          role: finalRole,
           country: formData.country,
         })
 
       if (profileError) throw profileError
 
-      toast.success('Account created! Welcome to IT Academies Nam! 🎉')
-      router.push(`/dashboard/${formData.role}`)
+      if (isCEO) {
+        toast.success('🎉 Welcome CEO! You are the first user - TC Academy is yours!')
+      } else {
+        toast.success('Account created! Welcome to TC Academy! 🎓')
+      }
+      
+      router.push(`/dashboard/${finalRole}`)
     } catch (error: any) {
       toast.error(error.message || 'Registration failed')
     } finally {
@@ -61,7 +74,6 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--bg-primary)] relative overflow-hidden py-12">
-      {/* Animated Background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-96 h-96 bg-[var(--accent-primary)] rounded-full filter blur-3xl animate-pulse-slow" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--accent-secondary)] rounded-full filter blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
@@ -69,19 +81,18 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-2xl relative z-10">
         <Link href="/" className="flex items-center justify-center space-x-2 mb-8">
-          <Terminal className="w-10 h-10 text-[var(--accent-primary)]" />
-          <span className="font-display text-2xl font-bold gradient-text">
-            IT ACADEMIES<span className="text-[var(--accent-secondary)]">.NAM</span>
-          </span>
+          <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
+            <GraduationCap className="w-7 h-7 text-white" />
+          </div>
+          <span className="font-display text-2xl font-bold gradient-text">TC ACADEMY</span>
         </Link>
 
         <div className="glass-effect rounded-2xl p-8 border border-[var(--border-color)] shadow-2xl">
           <div className="text-center mb-8">
-            <h1 className="font-display text-3xl font-bold mb-2">Join IT Academies Nam</h1>
-            <p className="text-[var(--text-secondary)]">Start your journey to IT mastery</p>
+            <h1 className="font-display text-3xl font-bold mb-2">Join TC Academy</h1>
+            <p className="text-[var(--text-secondary)]">Start your professional IT journey</p>
           </div>
 
-          {/* Progress Steps */}
           <div className="flex items-center justify-center mb-8 space-x-4">
             <StepIndicator number={1} active={step >= 1} label="Account" />
             <div className="w-12 h-0.5 bg-[var(--border-color)]" />
@@ -167,7 +178,7 @@ export default function RegisterPage() {
                       onClick={() => setFormData({ ...formData, role: 'student' })}
                       icon={<GraduationCap className="w-10 h-10" />}
                       title="Student"
-                      description="Learning IT skills"
+                      description="Learning IT"
                       color="var(--accent-primary)"
                     />
 
@@ -176,7 +187,7 @@ export default function RegisterPage() {
                       onClick={() => setFormData({ ...formData, role: 'lecturer' })}
                       icon={<Users className="w-10 h-10" />}
                       title="Lecturer"
-                      description="Teaching courses"
+                      description="Teaching"
                       color="var(--accent-secondary)"
                     />
                   </div>
@@ -243,7 +254,7 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center text-sm text-[var(--text-tertiary)] mt-8">
-          By creating an account, you agree to our Terms and Privacy Policy
+          First user becomes CEO automatically. By creating an account, you agree to our Terms and Privacy Policy.
         </p>
       </div>
     </div>
