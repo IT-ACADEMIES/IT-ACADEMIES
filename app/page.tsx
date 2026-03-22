@@ -1,17 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { Terminal, Code2, Shield, Globe, GraduationCap, Users, Trophy, ArrowRight, BookOpen, FlaskConical } from 'lucide-react'
+import { Code2, Shield, Globe, GraduationCap, BookOpen, FlaskConical, Trophy, ArrowRight } from 'lucide-react'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-[var(--bg-primary)]/80 border-b border-[var(--border-color)]">
+      {/* Navigation - SUPER VISIBLE BUTTONS */}
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-[var(--bg-primary)]/95 border-b-2 border-[var(--accent-primary)] shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center shadow-lg">
                 <GraduationCap className="w-7 h-7 text-white" />
               </div>
               <span className="font-display text-2xl font-bold gradient-text">
@@ -19,28 +19,26 @@ export default function HomePage() {
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center space-x-6">
-              <Link href="/about" className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition font-medium">
+            <div className="hidden md:flex items-center space-x-4">
+              <Link href="/about" className="px-4 py-2 text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition font-bold text-lg">
                 About
               </Link>
-              <Link href="/programs" className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition font-medium">
-                Programs
+              <Link href="/auth/login" className="px-6 py-3 bg-[var(--bg-secondary)] border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] rounded-lg font-bold hover:bg-[var(--accent-primary)] hover:text-white transition text-lg shadow-md">
+                SIGN IN
               </Link>
-              <Link href="/auth/login" className="btn-secondary px-6 py-2.5">
-                Sign In
-              </Link>
-              <Link href="/auth/register" className="btn-primary px-6 py-2.5 flex items-center space-x-2">
-                <span>Get Started</span>
-                <ArrowRight className="w-4 h-4" />
+              <Link href="/auth/register" className="px-6 py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white rounded-lg font-bold flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 transition text-lg">
+                <span>GET STARTED FREE</span>
+                <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
 
+            {/* Mobile buttons - SUPER CLEAR */}
             <div className="md:hidden flex items-center space-x-3">
-              <Link href="/auth/login" className="btn-secondary text-sm px-4 py-2">
-                Sign In
+              <Link href="/auth/login" className="px-4 py-2 bg-white border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] rounded-lg font-bold text-sm shadow-md">
+                SIGN IN
               </Link>
-              <Link href="/auth/register" className="btn-primary text-sm px-4 py-2">
-                Sign Up
+              <Link href="/auth/register" className="px-4 py-2 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white rounded-lg font-bold text-sm shadow-lg">
+                SIGN UP
               </Link>
             </div>
           </div>
@@ -55,9 +53,9 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center space-x-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-full px-6 py-2 mb-8">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm text-[var(--text-secondary)] font-medium">Triumphant College Accredited Programs</span>
+          <div className="inline-flex items-center space-x-2 bg-[var(--bg-secondary)] border-2 border-[var(--accent-primary)] rounded-full px-6 py-3 mb-8 shadow-lg">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-sm text-[var(--text-primary)] font-bold">🎓 Triumphant College Accredited Programs</span>
           </div>
 
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -72,21 +70,25 @@ export default function HomePage() {
             From IPDO to Advanced Cybersecurity. Built for excellence.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link href="/auth/register" className="btn-primary text-lg px-10 py-4 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 transition">
-              <span>Start Learning Free</span>
-              <ArrowRight className="w-5 h-5" />
+          {/* SUPER VISIBLE CTA BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <Link href="/auth/register" className="group relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
+              <div className="relative bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white px-12 py-5 rounded-lg font-bold text-xl flex items-center justify-center space-x-3 shadow-2xl">
+                <span>START LEARNING FREE</span>
+                <ArrowRight className="w-6 h-6" />
+              </div>
             </Link>
-            <Link href="/about" className="btn-secondary text-lg px-10 py-4 hover:bg-[var(--bg-tertiary)]">
-              Explore Programs
+            <Link href="/about" className="px-12 py-5 bg-white border-4 border-[var(--accent-primary)] text-[var(--accent-primary)] rounded-lg font-bold text-xl hover:bg-[var(--accent-primary)] hover:text-white transition shadow-xl">
+              EXPLORE PROGRAMS
             </Link>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
-            <StatCard icon={<BookOpen />} value="20+" label="Modules" />
-            <StatCard icon={<GraduationCap />} value="4" label="Levels" />
-            <StatCard icon={<FlaskConical />} value="5" label="Virtual Labs" />
-            <StatCard icon={<Trophy />} value="Free" label="Certificates" />
+            <StatCard icon={<BookOpen />} value="20+" label="MODULES" />
+            <StatCard icon={<GraduationCap />} value="4" label="LEVELS" />
+            <StatCard icon={<FlaskConical />} value="5" label="VIRTUAL LABS" />
+            <StatCard icon={<Trophy />} value="FREE" label="CERTIFICATES" />
           </div>
         </div>
       </section>
@@ -98,7 +100,7 @@ export default function HomePage() {
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
               Academic <span className="gradient-text">Programs</span>
             </h2>
-            <p className="text-xl text-[var(--text-secondary)]">
+            <p className="text-xl text-[var(--text-secondary)] font-medium">
               Professional IT qualifications from Diploma to Master's Degree
             </p>
           </div>
@@ -139,7 +141,7 @@ export default function HomePage() {
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
               Virtual <span className="gradient-text">Labs</span>
             </h2>
-            <p className="text-xl text-[var(--text-secondary)]">
+            <p className="text-xl text-[var(--text-secondary)] font-medium">
               Hands-on practice in real IT environments
             </p>
           </div>
@@ -167,8 +169,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] relative overflow-hidden">
+      {/* CTA - MEGA VISIBLE */}
+      <section className="py-24 px-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.05) 10px, rgba(255,255,255,.05) 20px)'
@@ -176,21 +178,24 @@ export default function HomePage() {
         </div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 text-white">
+          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 text-white">
             Ready to Start Your Journey?
           </h2>
-          <p className="text-xl mb-8 text-white/90">
+          <p className="text-2xl mb-10 text-white/90 font-medium">
             Join TC Academy today. Professional IT education. Completely free.
           </p>
-          <Link href="/auth/register" className="inline-flex items-center space-x-2 bg-white text-[var(--bg-primary)] px-10 py-4 rounded-lg font-bold text-lg hover:scale-105 transition transform shadow-xl">
-            <span>Create Free Account</span>
-            <ArrowRight className="w-5 h-5" />
+          <Link href="/auth/register" className="inline-block group relative">
+            <div className="absolute -inset-2 bg-white rounded-lg blur opacity-50 group-hover:opacity-75 transition"></div>
+            <div className="relative bg-white text-[var(--accent-primary)] px-12 py-6 rounded-lg font-bold text-2xl flex items-center space-x-3 shadow-2xl hover:scale-105 transition transform">
+              <span>CREATE FREE ACCOUNT</span>
+              <ArrowRight className="w-6 h-6" />
+            </div>
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[var(--bg-secondary)] border-t border-[var(--border-color)] py-12 px-4">
+      <footer className="bg-[var(--bg-secondary)] border-t-2 border-[var(--accent-primary)] py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
@@ -208,33 +213,33 @@ export default function HomePage() {
             <div>
               <h3 className="font-bold mb-4 text-[var(--text-primary)]">Programs</h3>
               <ul className="space-y-2 text-sm text-[var(--text-tertiary)]">
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Diploma</a></li>
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Bachelor's</a></li>
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Honours</a></li>
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Master's</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Diploma</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Bachelor's</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Honours</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Master's</a></li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-bold mb-4 text-[var(--text-primary)]">Platform</h3>
               <ul className="space-y-2 text-sm text-[var(--text-tertiary)]">
-                <li><Link href="/about" className="hover:text-[var(--accent-primary)]">About</Link></li>
-                <li><Link href="/auth/login" className="hover:text-[var(--accent-primary)]">Login</Link></li>
-                <li><Link href="/auth/register" className="hover:text-[var(--accent-primary)]">Sign Up</Link></li>
+                <li><Link href="/about" className="hover:text-[var(--accent-primary)] font-medium">About</Link></li>
+                <li><Link href="/auth/login" className="hover:text-[var(--accent-primary)] font-medium">Login</Link></li>
+                <li><Link href="/auth/register" className="hover:text-[var(--accent-primary)] font-medium">Sign Up</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-bold mb-4 text-[var(--text-primary)]">Legal</h3>
               <ul className="space-y-2 text-sm text-[var(--text-tertiary)]">
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Privacy</a></li>
-                <li><a href="#" className="hover:text-[var(--accent-primary)]">Terms</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Privacy</a></li>
+                <li><a href="#" className="hover:text-[var(--accent-primary)] font-medium">Terms</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-[var(--border-color)] pt-8 text-center text-sm text-[var(--text-tertiary)]">
-            <p>© 2026 TC Academy. Professional IT Education. Built in Namibia.</p>
+            <p className="font-medium">© 2026 TC Academy. Professional IT Education. Built in Namibia.</p>
           </div>
         </div>
       </footer>
@@ -249,23 +254,23 @@ function StatCard({ icon, value, label }: any) {
         {icon}
       </div>
       <div className="font-display text-4xl font-bold gradient-text mb-2">{value}</div>
-      <div className="text-sm text-[var(--text-tertiary)] uppercase tracking-wide">{label}</div>
+      <div className="text-sm text-[var(--text-primary)] uppercase tracking-wide font-bold">{label}</div>
     </div>
   )
 }
 
 function ProgramCard({ level, duration, modules, color }: any) {
   return (
-    <div className="card group cursor-pointer hover:border-[var(--accent-primary)]">
+    <div className="card group cursor-pointer hover:border-[var(--accent-primary)] border-2">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-bold text-2xl" style={{ color }}>{level}</h3>
-        <span className="text-sm text-[var(--text-tertiary)]">{duration}</span>
+        <span className="text-sm text-[var(--text-tertiary)] font-bold">{duration}</span>
       </div>
       <ul className="space-y-2">
         {modules.map((module: string, i: number) => (
           <li key={i} className="text-sm text-[var(--text-secondary)] flex items-center space-x-2">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-            <span>{module}</span>
+            <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+            <span className="font-medium">{module}</span>
           </li>
         ))}
       </ul>
@@ -275,7 +280,7 @@ function ProgramCard({ level, duration, modules, color }: any) {
 
 function LabCard({ icon, title, description, color }: any) {
   return (
-    <div className="card group cursor-pointer">
+    <div className="card group cursor-pointer border-2 hover:border-[var(--accent-primary)]">
       <div className="mb-4 group-hover:scale-110 transition transform" style={{ color }}>
         {icon}
       </div>
