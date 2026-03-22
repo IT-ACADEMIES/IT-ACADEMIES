@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Terminal, Target, Globe, Users, Shield, Trophy, Heart, ArrowRight } from 'lucide-react'
+import { Terminal, Globe, Users, Shield, Trophy, Heart, ArrowRight } from 'lucide-react'
 
 export default function AboutPage() {
   return (
