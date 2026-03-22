@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Terminal, Mail, Lock, ArrowRight } from 'lucide-react'
+import { Terminal, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 
@@ -12,6 +12,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [resetLoading, setResetLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,72 +46,186 @@ export default function LoginPage() {
     }
   }
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setResetLoading(true)
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      })
+
+      if (error) throw error
+
+      toast.success('Password reset email sent! Check your inbox.')
+      setShowForgotPassword(false)
+      setResetEmail('')
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to send reset email')
+    } finally {
+      setResetLoading(false)
+    }
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--bg-primary)]">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--bg-primary)] relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-[var(--accent-primary)] rounded-full filter blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--accent-secondary)] rounded-full filter blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
         <Link href="/" className="flex items-center justify-center space-x-2 mb-8">
-          <Terminal className="w-8 h-8 text-[var(--accent-primary)]" />
+          <Terminal className="w-10 h-10 text-[var(--accent-primary)]" />
           <span className="font-display text-2xl font-bold gradient-text">
             IT ACADEMIES<span className="text-[var(--accent-secondary)]">.NAM</span>
           </span>
         </Link>
 
-        <div className="glass-effect rounded-2xl p-8 border border-[var(--border-color)]">
-          <h1 className="font-display text-3xl font-bold mb-2 text-center">Welcome Back</h1>
-          <p className="text-[var(--text-secondary)] text-center mb-8">Continue your learning journey</p>
-
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium mb-2">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:border-[var(--accent-primary)] text-[var(--text-primary)]"
-                  placeholder="your@email.com"
-                  required
-                />
+        <div className="glass-effect rounded-2xl p-8 border border-[var(--border-color)] shadow-2xl">
+          {!showForgotPassword ? (
+            <>
+              <div className="text-center mb-8">
+                <h1 className="font-display text-3xl font-bold mb-2">Welcome Back</h1>
+                <p className="text-[var(--text-secondary)]">Continue your learning journey</p>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:border-[var(--accent-primary)] text-[var(--text-primary)]"
-                  placeholder="••••••••"
-                  required
-                />
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-[var(--text-primary)]">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-medium text-[var(--text-primary)]">
+                      Password
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="text-sm text-[var(--accent-primary)] hover:underline"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full btn-primary flex items-center justify-center space-x-2 py-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 transition"
+                >
+                  {loading ? (
+                    <div className="loading-dots">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  ) : (
+                    <>
+                      <span>Sign In</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <p className="text-[var(--text-secondary)] text-sm">
+                  Don't have an account?{' '}
+                  <Link href="/auth/register" className="text-[var(--accent-primary)] hover:underline font-medium">
+                    Create Free Account
+                  </Link>
+                </p>
               </div>
-            </div>
+            </>
+          ) : (
+            <>
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-[var(--accent-primary)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <AlertCircle className="w-8 h-8 text-[var(--accent-primary)]" />
+                </div>
+                <h1 className="font-display text-3xl font-bold mb-2">Reset Password</h1>
+                <p className="text-[var(--text-secondary)]">
+                  Enter your email and we'll send you a reset link
+                </p>
+              </div>
 
-            <button type="submit" disabled={loading} className="w-full btn-primary flex items-center justify-center space-x-2">
-              {loading ? (
-                <div className="loading-dots"><span></span><span></span><span></span></div>
-              ) : (
-                <>
-                  <span>Sign In</span>
-                  <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
-          </form>
+              <form onSubmit={handleForgotPassword} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-[var(--text-primary)]">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
+                    <input
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-[var(--text-secondary)] text-sm">
-              Don't have an account?{' '}
-              <Link href="/auth/register" className="text-[var(--accent-primary)] hover:underline font-medium">
-                Create Free Account
-              </Link>
-            </p>
-          </div>
+                <div className="flex space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPassword(false)}
+                    className="flex-1 btn-secondary py-3"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={resetLoading}
+                    className="flex-1 btn-primary py-3 disabled:opacity-50"
+                  >
+                    {resetLoading ? (
+                      <div className="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    ) : (
+                      'Send Reset Link'
+                    )}
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
         </div>
+
+        <p className="text-center text-sm text-[var(--text-tertiary)] mt-8">
+          By signing in, you agree to our Terms and Privacy Policy
+        </p>
       </div>
     </div>
   )
