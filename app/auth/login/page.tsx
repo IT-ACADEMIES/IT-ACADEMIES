@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Terminal, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'
+import { Mail, Lock, ArrowRight, AlertCircle, GraduationCap } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 
@@ -21,26 +21,39 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({ 
+        email, 
+        password 
+      })
+      
       if (error) throw error
 
-      const { data: userData } = await supabase
+      // Get user role
+      const { data: userData, error: userError } = await supabase
         .from('users')
         .select('role')
         .eq('id', data.user.id)
         .single()
 
-      toast.success('Welcome back!')
-      
-      if (userData?.role === 'ceo') {
-        router.push('/dashboard/ceo')
-      } else if (userData?.role === 'lecturer') {
-        router.push('/dashboard/lecturer')
-      } else {
-        router.push('/dashboard/student')
+      if (userError) {
+        console.error('User data error:', userError)
+        toast.error('Could not load user data')
+        setLoading(false)
+        return
       }
+
+      toast.success('Welcome back! 🎓')
+      
+      // Redirect based on role
+      const role = userData?.role || 'student'
+      setTimeout(() => {
+        router.push(`/dashboard/${role}`)
+        router.refresh()
+      }, 500)
+      
     } catch (error: any) {
-      toast.error(error.message || 'Login failed')
+      console.error('Login error:', error)
+      toast.error(error.message || 'Login failed. Check your credentials.')
     } finally {
       setLoading(false)
     }
@@ -69,7 +82,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--bg-primary)] relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-96 h-96 bg-[var(--accent-primary)] rounded-full filter blur-3xl animate-pulse-slow" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--accent-secondary)] rounded-full filter blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
@@ -77,10 +90,10 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md relative z-10">
         <Link href="/" className="flex items-center justify-center space-x-2 mb-8">
-          <Terminal className="w-10 h-10 text-[var(--accent-primary)]" />
-          <span className="font-display text-2xl font-bold gradient-text">
-            IT ACADEMIES<span className="text-[var(--accent-secondary)]">.NAM</span>
-          </span>
+          <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center shadow-lg">
+            <GraduationCap className="w-7 h-7 text-white" />
+          </div>
+          <span className="font-display text-2xl font-bold gradient-text">TC ACADEMY</span>
         </Link>
 
         <div className="glass-effect rounded-2xl p-8 border border-[var(--border-color)] shadow-2xl">
@@ -93,8 +106,8 @@ export default function LoginPage() {
 
               <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-[var(--text-primary)]">
-                    Email Address
+                  <label className="block text-sm font-bold mb-2 text-[var(--text-primary)]">
+                    📧 Email Address
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
@@ -102,7 +115,7 @@ export default function LoginPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border-2 border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
                       placeholder="your@email.com"
                       required
                     />
@@ -111,15 +124,15 @@ export default function LoginPage() {
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label className="block text-sm font-medium text-[var(--text-primary)]">
-                      Password
+                    <label className="block text-sm font-bold text-[var(--text-primary)]">
+                      🔒 Password
                     </label>
                     <button
                       type="button"
                       onClick={() => setShowForgotPassword(true)}
-                      className="text-sm text-[var(--accent-primary)] hover:underline"
+                      className="text-sm text-[var(--accent-primary)] hover:underline font-bold"
                     >
-                      Forgot password?
+                      Forgot?
                     </button>
                   </div>
                   <div className="relative">
@@ -128,7 +141,7 @@ export default function LoginPage() {
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border-2 border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
                       placeholder="••••••••"
                       required
                     />
@@ -138,7 +151,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full btn-primary flex items-center justify-center space-x-2 py-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 transition"
+                  className="w-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-bold py-4 rounded-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 transition-all text-lg"
                 >
                   {loading ? (
                     <div className="loading-dots">
@@ -148,7 +161,7 @@ export default function LoginPage() {
                     </div>
                   ) : (
                     <>
-                      <span>Sign In</span>
+                      <span>SIGN IN</span>
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
@@ -158,7 +171,7 @@ export default function LoginPage() {
               <div className="mt-6 text-center">
                 <p className="text-[var(--text-secondary)] text-sm">
                   Don't have an account?{' '}
-                  <Link href="/auth/register" className="text-[var(--accent-primary)] hover:underline font-medium">
+                  <Link href="/auth/register" className="text-[var(--accent-primary)] hover:underline font-bold">
                     Create Free Account
                   </Link>
                 </p>
@@ -178,8 +191,8 @@ export default function LoginPage() {
 
               <form onSubmit={handleForgotPassword} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-[var(--text-primary)]">
-                    Email Address
+                  <label className="block text-sm font-bold mb-2 text-[var(--text-primary)]">
+                    📧 Email Address
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
@@ -187,7 +200,7 @@ export default function LoginPage() {
                       type="email"
                       value={resetEmail}
                       onChange={(e) => setResetEmail(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
+                      className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border-2 border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent text-[var(--text-primary)] transition"
                       placeholder="your@email.com"
                       required
                     />
@@ -198,14 +211,14 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(false)}
-                    className="flex-1 btn-secondary py-3"
+                    className="flex-1 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] text-[var(--text-primary)] font-bold py-3 rounded-lg hover:bg-[var(--bg-tertiary)] transition"
                   >
-                    Cancel
+                    CANCEL
                   </button>
                   <button
                     type="submit"
                     disabled={resetLoading}
-                    className="flex-1 btn-primary py-3 disabled:opacity-50"
+                    className="flex-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-bold py-3 rounded-lg disabled:opacity-50 shadow-lg hover:shadow-xl transition"
                   >
                     {resetLoading ? (
                       <div className="loading-dots">
@@ -214,7 +227,7 @@ export default function LoginPage() {
                         <span></span>
                       </div>
                     ) : (
-                      'Send Reset Link'
+                      'SEND RESET LINK'
                     )}
                   </button>
                 </div>
